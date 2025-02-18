@@ -6,7 +6,7 @@
 /*   By: mgamraou <mgamraou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:55:50 by mgamraou          #+#    #+#             */
-/*   Updated: 2025/02/13 17:40:46 by mgamraou         ###   ########.fr       */
+/*   Updated: 2025/02/18 17:07:20 by mgamraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,15 @@ char	*handle_executable(char *cmd, char **envp, char **paths)
 	str = ft_strdup(envp[i] + 4);
 	tmp = ft_strjoin(str, "/");
 	res = ft_strjoin(tmp, cmd);
-	clean_up(str, paths);
 	free(tmp);
-	return (res);
+	free(str);
+	if (access(res, X_OK) == 0)
+	{
+		clean_up(NULL, paths);
+		return (res);
+	}
+	else
+		return (free(res), NULL);
 }
 
 char	*check_access(char **paths, char *str, char *cmd, char **envp)

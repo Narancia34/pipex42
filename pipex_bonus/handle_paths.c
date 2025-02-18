@@ -6,7 +6,7 @@
 /*   By: mgamraou <mgamraou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 15:24:00 by mgamraou          #+#    #+#             */
-/*   Updated: 2025/02/18 17:00:22 by mgamraou         ###   ########.fr       */
+/*   Updated: 2025/02/18 17:06:30 by mgamraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*handle_executable(char *cmd, char **envp, char **paths)
 		return (res);
 	}
 	else
-		return (NULL);
+		return (free(res), NULL);
 }
 
 char	*check_access(char **paths, char *str, char *cmd, char **envp)
