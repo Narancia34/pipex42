@@ -15,14 +15,13 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <string.h>
-#include "./libft/libft.h"
+#include "../libft/libft.h"
 
 void	handle_pipes(int cmd_count, char **av, char **envp);
 void	clean_up(char *str, char **arr);
 char	*get_command(const char *full_cmd);
 char	*add_command(char *str, char *full_cmd);
-char	*check_access(char **paths, char *str, char *cmd);
+char	*check_access(char **paths, char *str, char *cmd, char **envp);
 char	*find_path(char *cmd, char **envp);
 void	ft_error(int error);
 void	execute_command(char *path, char **argv, char **envp);

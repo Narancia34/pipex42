@@ -18,6 +18,8 @@ void	ft_error(int error)
 		perror("pipe failed!");
 	else if (error == 2)
 		perror("fork failed!");
+	else if (error == 3)
+		perror("command not found!");
 	exit(1);
 }
 

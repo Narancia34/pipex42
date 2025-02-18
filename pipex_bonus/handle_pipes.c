@@ -34,6 +34,11 @@ void	handle_pipes_utils_b(int i, char **av, char **envp)
 
 	argv = ft_split(av[2 + i], ' ');
 	cmd_path = find_path(argv[0], envp);
+	if (!cmd_path)
+	{
+		clean_up(cmd_path, argv);
+		exit(1);
+	}
 	execute_command(cmd_path, argv, envp);
 }
 
