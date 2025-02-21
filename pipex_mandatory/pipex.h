@@ -20,14 +20,10 @@
 # include <fcntl.h>
 # include "../libft/libft.h"
 
-char	*find_path(char *cmd, char **envp);
 void	clean_up(char *str, char **arr);
-char	*get_command(const char *full_cmd);
-char	*check_access(char **paths, char *str, char *cmd, char **envp);
-void	ft_trow_error(int error);
-void	handle_pipe(char *cmd1, char *cmd2, char **av, char **envp);
+void	handle_pipe(char **av, char **envp);
 void	ft_error(int error);
 void	execute_command(char *path, char **argv, char **envp);
-void	handle_child1(char *cmd, char **av, char **envp, int *fd);
+char	*find_cmd_path(char *full_cmd, char **envp);
 
 #endif

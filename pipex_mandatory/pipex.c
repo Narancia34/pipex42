@@ -66,24 +66,9 @@ void	handle_files(char **av)
 
 int	main(int ac, char **av, char **envp)
 {
-	char	*cmd1;
-	char	*cmd2;
 
 	check(ac, av, envp);
 	handle_files(av);
-	cmd1 = find_path(av[2], envp);
-	if (!cmd1)
-		exit(1);
-	cmd2 = find_path(av[3], envp);
-	if (!cmd2)
-	{
-		free(cmd1);
-		exit(1);
-	}
-	handle_pipe(cmd1, cmd2, av, envp);
-	if (cmd1)
-		free(cmd1);
-	if (cmd2)
-		free(cmd2);
+	handle_pipe(av, envp);
 	return (0);
 }
