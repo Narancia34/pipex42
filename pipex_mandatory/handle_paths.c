@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_paths.c                                    :+:      :+:    :+:   */
+/*   handle_paths.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgamraou <mgamraou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/19 09:37:30 by mgamraou          #+#    #+#             */
-/*   Updated: 2025/02/19 11:56:29 by mgamraou         ###   ########.fr       */
+/*   Created: 2025/02/21 15:51:54 by mgamraou          #+#    #+#             */
+/*   Updated: 2025/02/21 15:52:04 by mgamraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*find_pre_path(char **envp)
 	char	*res;
 
 	i = 0;
-	while(envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
+	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
 		i++;
 	if (!envp[i])
 	{
@@ -47,7 +47,7 @@ char	*cat_path_cmd(char *pre_path, char *full_cmd)
 	char	*res;
 	char	*tmp;
 	char	*cmd;
-	
+
 	cmd = get_command(full_cmd);
 	if (!cmd)
 		return (NULL);
@@ -62,7 +62,7 @@ char	*check_access(char **pre_paths, char *full_cmd)
 {
 	int		i;
 	char	*res;
-	
+
 	i = 0;
 	while (pre_paths[i])
 	{
@@ -101,4 +101,3 @@ char	*find_cmd_path(char *full_cmd, char **envp)
 		return (clean_up(NULL, pre_paths), NULL);
 	return (res);
 }
-

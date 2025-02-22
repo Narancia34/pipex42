@@ -42,31 +42,20 @@ void	check(int ac, char **av, char **envp)
 
 void	handle_files(char **av)
 {
-	int	infile;
 	int	outfile;
 
-	infile = open(av[1], O_RDONLY);
-	if (infile == -1)
-	{
-		ft_putstr_fd("Error opening the inpute file!", 2);
-		exit(1);
-	}
 	outfile = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (outfile == -1)
 	{
 		ft_putstr_fd("Error opening the output file!", 2);
-		close(infile);
 		exit(1);
 	}
-	dup2(infile, STDIN_FILENO);
 	dup2(outfile, STDOUT_FILENO);
-	close(infile);
 	close(outfile);
 }
 
 int	main(int ac, char **av, char **envp)
 {
-
 	check(ac, av, envp);
 	handle_files(av);
 	handle_pipe(av, envp);

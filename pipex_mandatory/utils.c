@@ -25,7 +25,7 @@ void	execute_command(char *path, char **argv, char **envp)
 {
 	if (!path)
 	{
-		perror("command not found");
+		ft_putstr_fd("command not found!\n", 2);
 		clean_up(path, argv);
 		exit(127);
 	}
@@ -41,12 +41,21 @@ void	handle_child1(char **av, char **envp, int *fd)
 {
 	char	**argv;
 	char	*cmd;
+	int		input_fd;
 
-	cmd = find_cmd_path(av[2], envp);
+	input_fd = open(av[1], O_RDONLY);
+	if (input_fd == -1)
+	{
+		perror("can't open inpute file");
+		exit(1);
+	}
 	close(fd[0]);
+	dup2(input_fd, STDIN_FILENO);
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
+	close(input_fd);
 	argv = ft_split(av[2], ' ');
+	cmd = find_cmd_path(av[2], envp);
 	execute_command(cmd, argv, envp);
 }
 

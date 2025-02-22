@@ -33,22 +33,33 @@ void	handle_pipes_utils_b(int i, char **av, char **envp)
 	char	*cmd_path;
 
 	argv = ft_split(av[2 + i], ' ');
-	cmd_path = find_path(argv[0], envp);
-	if (!cmd_path)
-	{
-		clean_up(cmd_path, argv);
-		exit(1);
-	}
+	cmd_path = find_cmd_path(argv[0], envp);
 	execute_command(cmd_path, argv, envp);
 }
 
-void	handle_pipes_utils_c(int *prev_fd, int *fd, int status, int pid)
+void	handle_pipes_utils_c(int *prev_fd, int *fd)
 {
 	if ((*prev_fd) != -1)
 		close(*prev_fd);
 	close(fd[1]);
 	(*prev_fd) = fd[0];
-	waitpid(pid, &status, 0);
+}
+
+void	handle_input_file(char *file_name, int i)
+{
+	int	input;
+
+	if (i == 0)
+	{
+		input = open(file_name, O_RDONLY);
+		if (input == -1)
+		{
+			perror("can't open input file");
+			exit(1);
+		}
+		dup2(input, STDIN_FILENO);
+		close(input);
+	}
 }
 
 void	handle_pipes(int cmd_count, char **av, char **envp)
@@ -57,12 +68,10 @@ void	handle_pipes(int cmd_count, char **av, char **envp)
 	int		prev_fd;
 	int		i;
 	pid_t	pid;
-	int		status;
 
-	i = 0;
-	status = 0;
+	i = -1;
 	prev_fd = -1;
-	while (i < cmd_count)
+	while (++i < cmd_count)
 	{
 		if (pipe(fd) == -1)
 			ft_error(1);
@@ -71,11 +80,13 @@ void	handle_pipes(int cmd_count, char **av, char **envp)
 			ft_error(2);
 		if (pid == 0)
 		{
+			handle_input_file(av[1], i);
 			handle_pipes_util_a(prev_fd, cmd_count, i, fd);
 			handle_pipes_utils_b(i, av, envp);
 		}
 		else
-			handle_pipes_utils_c(&prev_fd, fd, status, pid);
-		i++;
+			handle_pipes_utils_c(&prev_fd, fd);
 	}
+	while (wait(NULL) > 0)
+		;
 }
